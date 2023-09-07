@@ -163,6 +163,53 @@ echo "Valor de \$b: $b<br>";
 echo "Valor de \$c: $c<br>";
 ?>
 
+<h2>Ejercicio 6</h2>
+<p>Dar y comprobar el valor booleano de las variables $a, $b, $c, $d, $e y $f y muéstralas usando la función var_dump(<datos>).
+$a = “0”;
+$b = “TRUE”;
+$c = FALSE;
+$d = ($a OR $b);
+$e = ($a AND $c);
+$f = ($a XOR $b);</p>
+
+<?php
+$a = "0";
+$b = "TRUE";
+$c = FALSE;
+$d = ($a OR $b);
+$e = ($a AND $c);
+$f = ($a XOR $b);
+
+echo "<h2>Valores booleanos de las variables</h2>";
+echo "<p>\$a = \"$a\"; // ";
+var_dump($a);
+echo "<br>\$b = \"$b\"; // ";
+var_dump($b);
+echo "<br>\$c = FALSE; // ";
+var_dump($c);
+echo "<br>\$d = (\$a OR \$b); // ";
+var_dump($d);
+echo "<br>\$e = (\$a AND \$c); // ";
+var_dump($e);
+echo "<br>\$f = (\$a XOR \$b); // ";
+var_dump($f);
+echo "</p>";
+?>
+
+<p>Dar y comprobar el valor booleano de las variables $a, $b, $c, $d, $e y $f y muéstralas
+usando la función var_dump(<datos>).</p>
+
+<?php
+$c_str = var_export($c, true);
+$e_str = var_export($e, true);
+
+echo "<p>\$c = FALSE; // ";
+echo $c_str;
+echo "<br>\$e = (\$a AND \$c); // ";
+echo $e_str;
+echo "</p>";
+?>
+
 
 </body>
 </html>
