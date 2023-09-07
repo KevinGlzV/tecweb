@@ -60,5 +60,64 @@
     
 ?>
 
+    <h2>Ejercicio 3</h2>
+    <p>Muestra el contenido de cada variable inmediatamente después de cada asignación, verificar la evolución del tipo de estas variables (imprime todos los componentes de los arreglo):</p>
+    <p>$a = “PHP5”;
+    $z[] = &$a;
+    $b = “5a version de PHP”;
+    $c = $b*10;
+    $a .= $b;
+    $b *= $c;
+    $z[0] = “MySQL”;</p>
+
+
+    <h2>Ejercicio 3</h2>
+<p>Muestra el contenido de cada variable inmediatamente después de cada asignación, verificar la evolución del tipo de estas variables (imprime todos los componentes de los arreglos):</p>
+<p>$a = “PHP5”;
+$z[] = &$a;
+$b = “5a version de PHP”;
+$c = $b*10;
+$a .= $b;
+$b *= $c;
+$z[0] = “MySQL”;</p>
+
+<?php
+$a = "PHP5";
+$z[] = &$a;
+echo '<ul>';
+echo '<li>Variable a después de la primera asignación: ' . $a . '</li>';
+echo '<li>Contenido del arreglo z después de la primera asignación:</li>';
+print_r($z);
+echo '</ul>';
+
+$b = "5a version de PHP";
+echo '<ul>';
+echo '<li>Variable b después de la segunda asignación: ' . $b . '</li>';
+echo '</ul>';
+
+@$c = $b * 10;
+echo '<ul>';
+echo '<li>Variable c después de la tercera asignación: ' . $c . '</li>';
+echo '</ul>';
+
+$a .= $b;
+echo '<ul>';
+echo '<li>Variable a después de la cuarta asignación: ' . $a . '</li>';
+echo '</ul>';
+
+$b *= $c;
+echo '<ul>';
+echo '<li>Variable b después de la quinta asignación: ' . $b . '</li>';
+echo '</ul>';
+
+$z[0] = "MySQL";
+echo '<ul>';
+echo '<li>Contenido del arreglo z después de la sexta asignación:</li>';
+print_r($z);
+echo '</ul>';
+?>
+
+
+
 </body>
 </html>
