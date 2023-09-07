@@ -145,6 +145,23 @@ echo '<li>$z[0] = ' . $z[0] . '</li>';
 echo '</ul>';
 ?>
 
+<h2>Ejercicio 5</h2>
+<p>Dar el valor de las variables $a, $b, $c al final del siguiente script:
+$a = “7 personas”;
+$b = (integer) $a;
+$a = “9E3”;
+$c = (double) $a;</p>
+
+<?php
+$a = "7 personas";
+$b = (integer) $a;
+$a = "9E3";
+$c = (double) $a;
+
+echo "Valor de \$a: $a<br>";
+echo "Valor de \$b: $b<br>";
+echo "Valor de \$c: $c<br>";
+?>
 
 
 </body>
