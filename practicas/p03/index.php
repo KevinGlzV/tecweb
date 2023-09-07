@@ -84,36 +84,64 @@ $z[0] = “MySQL”;</p>
 <?php
 $a = "PHP5";
 $z[] = &$a;
+
 echo '<ul>';
-echo '<li>Variable a después de la primera asignación: ' . $a . '</li>';
-echo '<li>Contenido del arreglo z después de la primera asignación:</li>';
-print_r($z);
+echo '<li>Después de $a = "PHP5": a = ' . $a . '</li>';
+echo '<li>Después de $z[] = &$a: z[0] = ' . $z[0] . '</li>';
 echo '</ul>';
 
 $b = "5a version de PHP";
+
 echo '<ul>';
-echo '<li>Variable b después de la segunda asignación: ' . $b . '</li>';
+echo '<li>Después de $b = "5a version de PHP": b = ' . $b . '</li>';
 echo '</ul>';
 
 @$c = $b * 10;
+
 echo '<ul>';
-echo '<li>Variable c después de la tercera asignación: ' . $c . '</li>';
+echo '<li>Después de $c = $b * 10: c = ' . $c . '</li>';
 echo '</ul>';
 
 $a .= $b;
+
 echo '<ul>';
-echo '<li>Variable a después de la cuarta asignación: ' . $a . '</li>';
+echo '<li>Después de $a .= $b: a = ' . $a . '</li>';
 echo '</ul>';
 
 $b *= $c;
+
 echo '<ul>';
-echo '<li>Variable b después de la quinta asignación: ' . $b . '</li>';
+echo '<li>Después de $b *= $c: b = ' . $b . '</li>';
 echo '</ul>';
 
 $z[0] = "MySQL";
+
 echo '<ul>';
-echo '<li>Contenido del arreglo z después de la sexta asignación:</li>';
-print_r($z);
+echo '<li>Después de $z[0] = "MySQL": z[0] = ' . $z[0] . '</li>';
+echo '</ul>';
+?>
+
+<h2>Ejercicio 4</h2>
+<p>Lee y muestra los valores de las variables del ejercicio anterior, pero ahora con la ayuda de la matriz $GLOBALS o del modificador global de PHP.</p>
+
+<?php
+// Utilizando $GLOBALS
+echo '<h3>Usando $GLOBALS</h3>';
+echo '<ul>';
+echo '<li>$a = ' . $GLOBALS['a'] . '</li>';
+echo '<li>$b = ' . $GLOBALS['b'] . '</li>';
+echo '<li>$c = ' . $GLOBALS['c'] . '</li>';
+echo '<li>$z[0] = ' . $GLOBALS['z'][0] . '</li>';
+echo '</ul>';
+
+// Utilizando el modificador global
+global $a, $b, $c, $z;
+echo '<h3>Usando el modificador global</h3>';
+echo '<ul>';
+echo '<li>$a = ' . $a . '</li>';
+echo '<li>$b = ' . $b . '</li>';
+echo '<li>$c = ' . $c . '</li>';
+echo '<li>$z[0] = ' . $z[0] . '</li>';
 echo '</ul>';
 ?>
 
