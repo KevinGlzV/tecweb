@@ -33,7 +33,7 @@ if (isset($producto)) {
 
 
     //$result->free();
-    // Cierra la conexion
+    // FIN DE CONEXION
     $conexion->close();
 
     // SE HACE LA CONVERSIÓN DE ARRAY A JSON
