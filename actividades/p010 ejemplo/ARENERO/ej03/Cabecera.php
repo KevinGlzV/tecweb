@@ -4,6 +4,8 @@ Ejemplo para coprobar uso de constructor
 +
 Ejemplo para comprobar uso de namespaces
 */
+namespace EJEMPLOS/POO;
+
 class Cabecera{
     private $titulo;
     private $ubicacion;

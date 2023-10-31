@@ -6,12 +6,14 @@ var baseJSON = {
     "marca": "NA",
     "detalles": "NA",
     "imagen": "img/default.png"
-  };
+};
+
+let JsonString; // Declaración global
 
 $(document).ready(function(){
     let edit = false;
 
-    let JsonString = JSON.stringify(baseJSON,null,2);
+    JsonString = JSON.stringify(baseJSON,null,2); // Asignación a la variable global
     $('#description').val(JsonString);
     $('#product-result').hide();
     listarProductos();
@@ -118,45 +120,117 @@ $(document).ready(function(){
         }
     });
 
+    const validationRules = {
+        name: {
+            required: true,
+            maxLength: 100
+        },
+        brand: {
+            required: true,
+            options: ['Brand A', 'Brand B', 'Brand C'] // Ejemplo de marcas permitidas
+        },
+        model: {
+            required: true,
+            pattern: /^[A-Za-z0-9\s]+$/,
+            maxLength: 25
+        },
+        price: {
+            required: true,
+            min: 99.99
+        },
+        details: {
+            optional: true,
+            maxLength: 250
+        },
+        units: {
+            required: true,
+            min: 0
+        }
+        // No es necesario validar la imagen, ya que es opcional
+    };
+
+    // Manejar la validación al cambiar de campo
+    $('#name, #brand, #model, #price, #details, #units').on('blur', function() {
+        const fieldName = $(this).attr('id');
+        const value = $(this).val();
+
+        const validation = validationRules[fieldName];
+        if (validation) {
+            if (validation.required && value === '') {
+                // Mensaje de campo requerido
+                // Puedes mostrar un mensaje o realizar una acción específica
+                console.log(`El campo ${fieldName} es requerido.`);
+            } else if (validation.maxLength && value.length > validation.maxLength) {
+                // Mensaje de exceder la longitud máxima
+                console.log(`El campo ${fieldName} excede el límite de caracteres.`);
+            } else if (validation.min && parseFloat(value) < validation.min) {
+                // Mensaje de valor mínimo no alcanzado
+                console.log(`El valor de ${fieldName} es menor al mínimo permitido.`);
+            } else if (validation.pattern && !validation.pattern.test(value)) {
+                // Mensaje de formato incorrecto (para el campo de modelo, por ejemplo)
+                console.log(`El campo ${fieldName} tiene un formato inválido.`);
+            }
+        }
+    });
+
+    // Modificar el evento de submit para realizar la validación final antes de agregar el producto a la BD
     $('#product-form').submit(e => {
         e.preventDefault();
-
-        // SE CONVIERTE EL JSON DE STRING A OBJETO
-        let postData = JSON.parse( $('#description').val() );
-        // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
+    
+        const name = $('#name').val().trim();
+        const price = parseFloat($('#price').val());
+        const units = parseInt($('#units').val());
+    
+        if (!name || isNaN(price) || isNaN(units) || price < 99.99 || units < 0) {
+            let errorMessage = '';
+    
+            if (!name) {
+                errorMessage += 'Por favor, ingresa un nombre para el producto.<br>';
+            }
+    
+            if (isNaN(price) || price < 99.99) {
+                errorMessage += 'El precio debe ser un número válido y mayor o igual a 99.99.<br>';
+            }
+    
+            if (isNaN(units) || units < 0) {
+                errorMessage += 'Las unidades deben ser un número válido y mayor o igual a 0.<br>';
+            }
+    
+            $('#error-message').html(errorMessage);
+            $('#error-message').show();
+            return;
+        } else {
+            $('#error-message').hide();
+        }
+    
+        let postData = {
+            "precio": price,
+            "unidades": units,
+            "modelo": $('#model').val(),
+            "marca": $('#brand').val(),
+            "detalles": $('#details').val(),
+            "imagen": "img/default.png"
+        };
+    
         postData['nombre'] = $('#name').val();
         postData['id'] = $('#productId').val();
-
-        /**
-         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
-         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
-         **/
-
+    
         const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
-        
+    
         $.post(url, postData, (response) => {
-            //console.log(response);
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
             let respuesta = JSON.parse(response);
-            // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-            let template_bar = '';
-            template_bar += `
-                        <li style="list-style: none;">status: ${respuesta.status}</li>
-                        <li style="list-style: none;">message: ${respuesta.message}</li>
-                    `;
-            // SE REINICIA EL FORMULARIO
+            let template_bar = `
+                <li style="list-style: none;">status: ${respuesta.status}</li>
+                <li style="list-style: none;">message: ${respuesta.message}</li>
+            `;
             $('#name').val('');
             $('#description').val(JsonString);
-            // SE HACE VISIBLE LA BARRA DE ESTADO
             $('#product-result').show();
-            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
             $('#container').html(template_bar);
-            // SE LISTAN TODOS LOS PRODUCTOS
             listarProductos();
-            // SE REGRESA LA BANDERA DE EDICIÓN A false
             edit = false;
         });
-    });
+    });  
 
     $(document).on('click', '.product-delete', (e) => {
         if(confirm('¿Realmente deseas eliminar el producto?')) {
@@ -183,8 +257,8 @@ $(document).ready(function(){
             delete(product.nombre);
             delete(product.eliminado);
             delete(product.id);
-            // SE CONVIERTE EL OBJETO JSON EN STRING
-            let JsonString = JSON.stringify(product,null,2);
+            // SE ACTUALIZA EL VALOR DE LA VARIABLE GLOBAL EN LUGAR DE REDEFINIRLA LOCALMENTE
+            JsonString = JSON.stringify(product,null,2);
             // SE MUESTRA STRING EN EL <textarea>
             $('#description').val(JsonString);
             
